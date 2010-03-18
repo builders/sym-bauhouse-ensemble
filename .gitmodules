@@ -19,3 +19,36 @@
 [submodule "extensions/debugdevkit"]
 	path = extensions/debugdevkit
 	url = git://github.com/symphony/debugdevkit.git
+[submodule "extensions/browsedevkit"]
+	path = extensions/browsedevkit
+	url = git://github.com/rowan-lewis/browsedevkit.git
+[submodule "extensions/content_type_mappings"]
+	path = extensions/content_type_mappings
+	url = git://github.com/pointybeard/content_type_mappings.git
+[submodule "extensions/enhancedtaglist"]
+	path = extensions/enhancedtaglist
+	url = git://github.com/czheng/enhancedtaglist.git
+[submodule "extensions/entity_diagram"]
+	path = extensions/entity_diagram
+	url = git://github.com/nickdunn/entity_diagram.git
+[submodule "extensions/logsdevkit"]
+	path = extensions/logsdevkit
+	url = git://github.com/rowan-lewis/logsdevkit.git
+[submodule "extensions/export_install_file"]
+	path = extensions/export_install_file
+	url = git://github.com/bauhouse/export_install_file.git
+[submodule "extensions/order_entries"]
+	path = extensions/order_entries
+	url = git://github.com/nickdunn/order_entries.git
+[submodule "extensions/pagesfield"]
+	path = extensions/pagesfield
+	url = git://github.com/pointybeard/pagesfield.git
+[submodule "publishfiltering"]
+	path = publishfiltering
+	url = git://github.com/nickdunn/publishfiltering.git
+[submodule "extensions/referencelink"]
+	path = extensions/referencelink
+	url = git://github.com/czheng/referencelink.git
+[submodule "extensions/reflectionfield"]
+	path = extensions/reflectionfield
+	url = git://github.com/rowan-lewis/reflectionfield.git
