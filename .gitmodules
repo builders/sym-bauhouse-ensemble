@@ -52,3 +52,6 @@
 [submodule "extensions/reflectionfield"]
 	path = extensions/reflectionfield
 	url = git://github.com/rowan-lewis/reflectionfield.git
+[submodule "workspace"]
+	path = workspace
+	url = git://github.com/bauhouse/sym-bauhouse.git
