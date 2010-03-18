@@ -43,9 +43,6 @@
 [submodule "extensions/pagesfield"]
 	path = extensions/pagesfield
 	url = git://github.com/pointybeard/pagesfield.git
-[submodule "publishfiltering"]
-	path = publishfiltering
-	url = git://github.com/nickdunn/publishfiltering.git
 [submodule "extensions/referencelink"]
 	path = extensions/referencelink
 	url = git://github.com/czheng/referencelink.git
@@ -55,3 +52,6 @@
 [submodule "workspace"]
 	path = workspace
 	url = git://github.com/bauhouse/sym-bauhouse.git
+[submodule "extensions/publishfiltering"]
+	path = extensions/publishfiltering
+	url = git://github.com/nickdunn/publishfiltering.git
