@@ -72,8 +72,7 @@
 			return NULL;
 		}
 
-		define('__LANG__', $lang);
-
+		define('Symphony::lang()', $lang);
 		return $lang;
 	}
 
@@ -198,7 +197,7 @@
 		$conf['symphony']['pages_table_nest_children'] = 'yes';
 		$conf['log']['archive'] = '1';
 		$conf['log']['maxsize'] = '102400';
-		$conf['general']['sitename'] = 'Symphony CMS';
+		$conf['general']['sitename'] = 'Bauhouse';
 		$conf['image']['cache'] = '1';
 		$conf['image']['quality'] = '90';
 		$conf['database']['driver'] = 'mysql';
@@ -207,7 +206,7 @@
 		$conf['database']['runtime_character_set_alter'] = '1';
 		$conf['database']['query_caching'] = 'default';
 		$conf['public']['display_event_xml_in_source'] = 'yes';
-		$conf['region']['time_format'] = 'H:i';
+		$conf['region']['time_format'] = 'g:i a';
 		$conf['region']['date_format'] = 'd F Y';
 		$conf['maintenance_mode']['enabled'] = 'no';
 	
