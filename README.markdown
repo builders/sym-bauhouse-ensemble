@@ -1,3 +1,66 @@
+# Bauhouse - A Symphony Ensemble
+
+A Design Portfolio Blog
+
+- Version: 0.2
+- Date: 2010-10-02
+- Download: <http://symphony-cms.com/download/ensembles/view/47102/>
+- Github Repository: <http://github.com/builders/designadmin/>
+- Forum Discussion: <http://symphony-cms.com/discuss/thread/47103/>
+
+## Release Notes
+
+#### [Version 0.2](http://github.com/builders/sym-bauhouse-ensemble/commits/0.2)
+
+- Date: 5 Oct 2010
+- Update to Symphony 2.1.1
+
+#### [Version 0.1](http://github.com/builders/sym-bauhouse-ensemble/commits/0.1)
+
+- Date: 22 March 2010
+- Initial Release
+- Symphony 2.0.7
+
+### Description
+
+The Bauhouse Ensemble is a blog portfolio ensemble that is based on a design I created a few years ago. I am releasing [this design](http://bauhouse.ca/) as an ensemble based on the [interest expressed in this thread](http://symphony-cms.com/discuss/thread/41427/).
+
+> The current implementation of the portfolio involves a very manual process of building five different images for each piece because of the way I've implemented it. I developed this probably about three or four years ago when I was first starting out with Symphony. So, it was more a test of what Symphony was capable of than the best way to approach managing a portfolio site. I'm open to suggestions on how this should be improved.
+> 
+> I never got around to implementing comments and gravatars, but this could be added, based on the implementation in the Forum Ensemble, similar to the way this site is working.
+
+Note that I have removed photography from the site. I have included screenshots that I made of earlier versions of Symphony, when I first started writing tutorials for Symphony. This information may have some relevance, but just be aware that many things have changed in the years since I first wrote the tutorials, at the time of version 1.5, I believe.
+
+## Installation
+
+### Note: This is a work in progress
+
+It is best to install this ensemble with Git. If you prefer, you can download the installer from the Symphony site. 
+
+### Installing with Git the easy way
+
+1. Clone the Bauhouse Ensemble repository and rename the directory (if you like):
+
+		git clone git://github.com/builders/sym-bauhouse-ensemble.git bauhouse
+
+2. Change directory:
+
+		cd bauhouse
+
+3. Update all submodules, which will include all extensions and the workspace directory:
+
+		git submodule update --init
+
+or, if that doesn't work, issue the commands separately:
+
+		git submodule init
+		git submodule update
+
+4. Install the ensemble as you would normally install Symphony by pointing your 
+web browser at <http://yourwebsite.com/install.php> and provide details for
+establishing a database connection and about your server environment.
+
+
 # Symphony 2 #
 
 - Version: 2.1.1
