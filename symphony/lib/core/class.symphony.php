@@ -23,10 +23,10 @@
 		
 		public static $Configuration;
 		public static $Database;
+		public static $Log;
 		
 		private static $_lang;
-		
-		public $Log;
+
 		public $Profiler;
 		public $Cookie;
 		public $Author;
@@ -34,7 +34,7 @@
 		
 		protected static $_instance;
 		
-		const CRLF = "\r\n";
+		const CRLF = PHP_EOL;
 		
 		protected function __construct(){
 			
@@ -51,6 +51,8 @@
 			self::$Configuration = new Configuration(true);
 			self::$Configuration->setArray($settings);
 			
+			DateTimeObj::setDefaultTimezone(self::$Configuration->get('timezone', 'region'));
+			
 			self::$_lang = (self::$Configuration->get('lang', 'symphony') ? self::$Configuration->get('lang', 'symphony') : 'en');		
 			
 			// Legacy support for __LANG__ constant
@@ -63,19 +65,17 @@
 			$this->initialiseLog();
 
 			GenericExceptionHandler::initialise();
-			GenericErrorHandler::initialise($this->Log);
+			GenericErrorHandler::initialise(self::$Log);
 			
 			$this->initialiseCookie();
-
 			$this->initialiseDatabase();
-
-			if(!$this->initialiseExtensionManager()){
-				throw new SymphonyErrorPage('Error creating Symphony extension manager.');
+			$this->initialiseExtensionManager();
+			
+			if(!self::isLoggedIn()){
+				GenericExceptionHandler::$enabled = false;
 			}
 			
 			Lang::loadAll($this->ExtensionManager);
-
-			DateTimeObj::setDefaultTimezone(self::$Configuration->get('timezone', 'region'));
 			
 		}
 		
@@ -91,12 +91,15 @@
 			define_safe('__SYM_COOKIE_PATH__', $cookie_path);
 			define_safe('__SYM_COOKIE_PREFIX_', self::$Configuration->get('cookie_prefix', 'symphony'));
 						
-			$this->Cookie = new Cookie(__SYM_COOKIE_PREFIX_, TWO_WEEKS, __SYM_COOKIE_PATH__);			
+			$this->Cookie = new Cookie(__SYM_COOKIE_PREFIX_, TWO_WEEKS, __SYM_COOKIE_PATH__);
 		}
 		
 		public function initialiseExtensionManager(){
 			$this->ExtensionManager = new ExtensionManager($this);
-			return ($this->ExtensionManager instanceof ExtensionManager);
+			
+			if(!($this->ExtensionManager instanceof ExtensionManager)){
+				throw new SymphonyErrorPage('Error creating Symphony extension manager.');
+			}
 		}
 		
 		
@@ -109,6 +112,8 @@
 		}
 
 		public function initialiseDatabase(){
+			if (self::$Database) return true;
+			
 			$error = NULL;
 			
 			$driver_filename = TOOLKIT . '/class.' . self::$Configuration->get('driver', 'database') . '.php';
@@ -157,14 +162,14 @@
 		
 		public function initialiseLog(){
 			
-			$this->Log = new Log(ACTIVITY_LOG);
-			$this->Log->setArchive((self::$Configuration->get('archive', 'log') == '1' ? true : false));
-			$this->Log->setMaxSize(intval(self::$Configuration->get('maxsize', 'log')));
+			self::$Log = new Log(ACTIVITY_LOG);
+			self::$Log->setArchive((self::$Configuration->get('archive', 'log') == '1' ? true : false));
+			self::$Log->setMaxSize(intval(self::$Configuration->get('maxsize', 'log')));
 				
-			if($this->Log->open() == 1){
-				$this->Log->writeToLog('Symphony Log', true);
-				$this->Log->writeToLog('Version: '. self::$Configuration->get('version', 'symphony'), true);
-				$this->Log->writeToLog('--------------------------------------------', true);
+			if(self::$Log->open(Log::APPEND, self::$Configuration->get('write_mode', 'file')) == 1){
+				self::$Log->writeToLog('Symphony Log', true);
+				self::$Log->writeToLog('Version: '. self::$Configuration->get('version', 'symphony'), true);
+				self::$Log->writeToLog('--------------------------------------------', true);
 			}
 						
 		}
@@ -205,9 +210,9 @@
 			$username = self::$Database->cleanValue($username);
 			$password = self::$Database->cleanValue($password);
 			
-			if(strlen(trim($username)) > 0 && strlen(trim($password)) > 0){			
+			if(strlen(trim($username)) > 0 && strlen(trim($password)) > 0){
 				
-				if(!$isHash) $password = md5($password);
+				if(!$isHash) $password = General::hash($password);
 
 				$id = self::$Database->fetchVar('id', 0, "SELECT `id` FROM `tbl_authors` WHERE `username` = '$username' AND `password` = '$password' LIMIT 1");
 
@@ -244,10 +249,14 @@
 			}
 			
 			else{
-				$row = self::$Database->fetchRow(0, "SELECT `id`, `username`, `password` 
-													 FROM `tbl_authors` 
-													 WHERE SUBSTR(MD5(CONCAT(`username`, `password`)), 1, 8) = '$token' AND `auth_token_active` = 'yes' 
-													 LIMIT 1");				
+				$row = self::$Database->fetchRow(0, sprintf(
+					"SELECT `id`, `username`, `password` 
+					FROM `tbl_authors` 
+					WHERE SUBSTR(%s(CONCAT(`username`, `password`)), 1, 8) = '%s' 
+					AND `auth_token_active` = 'yes' 
+					LIMIT 1",
+					'SHA1', $token
+				));
 			}
 
 			if($row){
